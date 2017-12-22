@@ -1,0 +1,86 @@
+bg_PROERD.png
+bg_PROERD2.png
+Nestablo Ramos
+http://nestablo.blogspot.com.br/2012/05/proerd.html
+
+phaser_universe_bg.png
+Phaser Site
+http://phaser.io/
+
+virgilio_master_sword.png
+virgilio_pokemon_ghosts.png
+Virgílio Silveira
+https://www.facebook.com/VirgilioSilveiraArts/
+==============
+Font: Exo by Natanael Gama
+https://www.fontsquirrel.com/fonts/exo
+==============
+Scoring System
+Based on section 'Recent guideline compatible games' in http://tetris.wikia.com/wiki/Scoring
+
+Action...........................................Points
+Single/Mini T-Spin...............................100×level
+Mini T-Spin Single...............................200×level
+Double/Back To Back Mini T-Spin Single...........300×level
+T-Spin...........................................400×level
+Triple...........................................500×level
+Tetris/T-Spin Single.............................800×level
+B2B T-Spin Single..............................1,200×level
+Perfect Clear..................................1,200×level
+B2B Tetris.....................................1,200×level
+T-Spin Double..................................1,200×level
+T-Spin Triple..................................1,600×level
+B2B T-Spin Double..............................1,800×level
+B2B T-Spin Triple..............................2,400×level
+
+Combo
+N lineclears in a row..........................50pts. * N
+
+Soft drop......................................1 point per cell (Max of 20)
+Hard drop......................................2 points per cell (Max of 40)
+
+============
+TGM Rotation
+http://tetris.wikia.com/wiki/TGM_rotation
+
+SRS (Super Rotation system)
+http://tetris.wikia.com/wiki/SRS
+
+T-spin
+http://tetris.wikia.com/wiki/T-Spin
+
+Coding T-spin
+https://katyscode.wordpress.com/2012/10/13/tetris-aside-coding-for-t-spins/
+
+Random Generator
+http://tetris.wikia.com/wiki/Random_Generator
+
+============
+Tetris - Thema 'A' Acapella 
+Smooth McGroove
+https://www.youtube.com/watch?v=PV06M-Gqxgg
+
+Chaves (El Chavo del 8) "Boa Noite Vizinhança" on Fingerstyle
+Fabio Lima
+https://www.youtube.com/watch?v=5Yk_3qI2gp8
+
+============
+Kremilin's Surveillance
+Bruno Moraes
+http://bbrunomoraes.deviantart.com/art/Kremlin-s-surveillance-regime-597900665
+
+===========
+Phaser Nine Slice - by Orange Games
+https://github.com/orange-games/phaser-nineslice
+
+===========
+
+Leckerli One font
+
+https://www.fontsquirrel.com/fonts/leckerli-one
+
+===========
+
+MartelSans font
+
+https://fonts.google.com/specimen/Martel+Sans
