@@ -106,7 +106,7 @@ var keyModified;
 var tmpUserKeys;
 
 
-var gameover;
+var gameover, gameover2;
 var softDrop, softDrop2;
 var hardDrop, hardDrop2;
 var hardDropped, hardDropped2;

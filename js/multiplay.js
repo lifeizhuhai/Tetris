@@ -28,7 +28,7 @@ var multiplayState = {
 	update: function(){
 		if(preGameCountDown){
 			//wait
-		} else if(!gameover){
+		} else if(!isGameOver()){
 			if(cleaningLines){
 				if(!waitingLineClear){
 					waitingLineClear = true;
@@ -51,7 +51,7 @@ var multiplayState = {
 						fxLineClear.play();
 					}
 				}
-			} else {
+			} else if(!gameover){
 				getInput();
 				if(hardDrop){
 					while(testDrop()){
@@ -74,25 +74,25 @@ var multiplayState = {
 				if(!waitingLineClear2){
 					waitingLineClear2 = true;
 					curCombo2 += 1;
-					lineClearTimer = game.time.events.loop(Phaser.Timer.SECOND * lineClearInterval / 1000, lineClear, this);
-					if(lastValidMoveWasASpin && lastPieceIndex==0 && testTSpin()){ //if it is a t, if the last valid move was a rotation and if the t-spin verification is OK
-						score(tSpinPts[linesToClear.length - 1] * level + (comboIncrement * curCombo));
-						showTspinAnimation(lastX, lastY);
+					lineClearTimer2 = game.time.events.loop(Phaser.Timer.SECOND * lineClearInterval / 1000, lineClear2, this);
+					if(lastValidMoveWasASpin2 && lastPieceIndex2==0 && testTSpin2()){ //if it is a t, if the last valid move was a rotation and if the t-spin verification is OK
+						score2(tSpinPts[linesToClear2.length - 1] * level2 + (comboIncrement * curCombo2));
+						showTspinAnimation(lastX2, lastY2);
 					} else {
-						score(lineClearPts[linesToClear.length - 1] * level + (comboIncrement * curCombo));
+						score2(lineClearPts[linesToClear2.length - 1] * level2 + (comboIncrement * curCombo2));
 					}
 					
-					if(curCombo > 1){
+					if(curCombo2 > 1){
 						fxCombo.play();
-						showMultiplier(lastX, lastY);
+						showMultiplier2(lastX2, lastY2);
 					}
-					if(linesToClear.length == 4){
+					if(linesToClear2.length == 4){
 						fxTetris.play();
 					} else {
 						fxLineClear.play();
 					}
 				}
-			} else {
+			} else if(!gameover2) {
 				getInput2();
 				if(hardDrop2){
 					while(testDrop2()){
@@ -178,6 +178,33 @@ function bringLinesDown(){
 	curY = -1; //gambiarra
 	
 	testTick();
+}
+
+function bringLinesDown2(){
+	var prevLine;
+	for(var k = 0; k < linesToClear2.length; k ++ ){
+		for(var i = linesToClear2[k]; i > 0; i--){
+			prevLine = i -1;
+			for(var j=0; j< MAX_BLOCK_COUNT_HORIZONTAL; j++){
+				board2[i][j] = board2[prevLine][j];
+				if(board2[i][j] < 10){
+					board2[i][j] = -1;
+				}
+			}
+		}
+		lineCount2++;
+		updateLabelLines2();
+	}
+	for(i = 0; i < 10; i++){
+		board2[0][i] = -1;
+	}
+	cleaningLines2 = false;
+	waitingLineClear2 = false;
+	linesToClear2 = [];
+	game.time.events.remove(lineClearTimer2);
+	curY2 = -1; //gambiarra
+	
+	testTick2();
 }
 
 function clearBoardDisplay(){
@@ -608,22 +635,22 @@ function getInput(){
 
 	
 
-	if(game.input.keyboard.isDown(Phaser.Keyboard.S)){
-		if(!softDrop){
-			killSoftDropTimer();
-			softDrop = true;
-			testTick();
-		}
-	} else {
-		if(softDrop)
-		{
-			killSoftDropTimer();
-			softDrop = false;
-			testTick();
-		}
-	}
+	// if(game.input.keyboard.isDown(Phaser.Keyboard.S)){
+	// 	if(!softDrop){
+	// 		killSoftDropTimer();
+	// 		softDrop = true;
+	// 		testTick();
+	// 	}
+	// } else {
+	// 	if(softDrop)
+	// 	{
+	// 		killSoftDropTimer();
+	// 		softDrop = false;
+	// 		testTick();
+	// 	}
+	// }
 
-	if(game.input.keyboard.isDown(Phaser.Keyboard.F)){
+	if(game.input.keyboard.isDown(Phaser.Keyboard.S)){
 		if (!hardDropLock){
 			hardDropLock = true;
 			hardDrop = true;
@@ -685,22 +712,22 @@ function getInput2(){
 
 	
 
-	if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
-		if(!softDrop2){
-			killSoftDropTimer2();
-			softDrop2 = true;
-			testTick2();
-		}
-	} else {
-		if(softDrop2)
-		{
-			killSoftDropTimer2();
-			softDrop2 = false;
-			testTick2();
-		}
-	}
+	// if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
+	// 	if(!softDrop2){
+	// 		killSoftDropTimer2();
+	// 		softDrop2 = true;
+	// 		testTick2();
+	// 	}
+	// } else {
+	// 	if(softDrop2)
+	// 	{
+	// 		killSoftDropTimer2();
+	// 		softDrop2 = false;
+	// 		testTick2();
+	// 	}
+	// }
 
-	if(game.input.keyboard.isDown(Phaser.Keyboard.SPACE)){
+	if(game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
 		if (!hardDropLock2){
 			hardDropLock2 = true;
 			hardDrop2 = true;
@@ -884,6 +911,18 @@ function lineClear(){
 		bringLinesDown();
 	} else {
 		lineClearX++;
+	}
+}
+
+function lineClear2(){
+	for(var i = 0; i < linesToClear2.length; i++ ){
+		board2[linesToClear2[i][lineClearX2]] = -1;
+		blocoOff2(lineClearX2, linesToClear2[i]);
+	}
+	if(lineClearX2 >= MAX_INDEX_HORIZONTAL){
+		bringLinesDown2();
+	} else {
+		lineClearX2++;
 	}
 }
 
@@ -1163,6 +1202,51 @@ function rotateCounterClockWise(){
 	}
 }
 
+function rotateCounterClockWise2(){
+	if(testRotateCounterClockWise2(curX2, curY2)){
+		clearPiece2();
+		curPose2--;
+		if(curPose2 < 0){
+			curPose = 3;
+		}
+		drawPiece2();
+		fxRotate.play();
+	} else if( !floorKicked2 && testRotateCounterClockWise2(curX2, curY2 - 1)){
+		clearPiece2();
+		curPose2--;
+		curY2 --;
+		if(curPose2 < 0){
+			curPose2 = 3;
+		}
+		drawPiece2();
+		fxRotate.play();
+	} else if( !floorKicked2 && testRotateCounterClockWise2(curX2, curY2 - 2)){
+		clearPiece2();
+		curPose2--;
+		curY2 --;
+		if(curPose2 < 0){
+			curPose2 = 3;
+		}
+		drawPiece2();
+		fxRotate.play();
+	} else if(!testWallKicks2(false)){
+		if(curY2 +1 <= MAX_INDEX_VERTICAL){
+			if(testRotateCounterClockWise2(curX2, curY2 + 1)){ //test down kick
+				clearPiece2();
+				curY2++;
+				curPose2++;
+				if(curPose2 > 3){
+					curPose2 = 0;
+				}
+				drawPiece2();
+				fxRotate.play();
+			} else {
+				testWallKicksDownKicked2(false);
+			}
+		}
+	}
+}
+
 function score(pts){
 	curScore += pts;
 	updateLabelScore();
@@ -1218,13 +1302,25 @@ function testDrop2(){
 }
 
 function testGameOver(){
-	console.log(curY, curY2);
 	if(curY == -1){
 		gameover = true;
 		return true;
 	}
 	
 	return false;
+}
+
+function testGameOver2(){
+	if(curY2 == -1){
+		gameover2 = true;
+		return true;
+	}
+	
+	return false;
+}
+
+function isGameOver(){
+	return gameover && gameover2;
 }
 
 function testGhostDrop(){
@@ -1486,6 +1582,35 @@ function testRotateCounterClockWise(x, y){
 	return true;
 }
 
+function testRotateCounterClockWise2(x, y){
+	var tmpX;
+	var tmpY;
+	var testPose = curPose2 -1;
+	if(testPose < 0){
+		testPose = 3;
+	}
+	for(var i = 0; i < 4; i++){
+		tmpX = piece2.poses[testPose][i][0] + x;
+		tmpY = piece2.poses[testPose][i][1] + y;
+		if(tmpY < 0){
+			//do nothing
+			if((tmpX > MAX_INDEX_HORIZONTAL || tmpX < 0) || (tmpY > MAX_INDEX_VERTICAL)){
+				return false;
+			}
+		} else if((tmpX > MAX_INDEX_HORIZONTAL || tmpX < 0) || (tmpY > MAX_INDEX_VERTICAL)){
+			return false;
+		} else if(tmpX > -1 && tmpX < MAX_BLOCK_COUNT_HORIZONTAL && tmpY < MAX_BLOCK_COUNT_VERTICAL){
+			if(board2[tmpY][tmpX] >= 10){
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	lastValidMoveWasASpin2 = true;
+	return true;
+}
+
 function testTick(){
 	if(testDrop()){
 		lastValidMoveWasASpin = false;
@@ -1511,18 +1636,19 @@ function testTick(){
 			}
 		}
 	}
-	if(softDrop && !lastSecondActive){
+	/*if(softDrop && !lastSecondActive){
 		score(softDropPts);
-	}
+	}*/
 
 	killSoftDropTimer();
 	if(!waitingLineClear){
 		var ticktime;
-		if(softDrop){
-			ticktime = Phaser.Timer.SECOND * tickIntervalsoftDrop / 1000;
-		} else {
-			ticktime = Phaser.Timer.SECOND * tickInterval / 1000;
-		}
+		// if(softDrop){
+		// 	ticktime = Phaser.Timer.SECOND * tickIntervalsoftDrop / 1000;
+		// } else {
+		// 	ticktime = Phaser.Timer.SECOND * tickInterval / 1000;
+		// }
+		ticktime = Phaser.Timer.SECOND * tickInterval / 1000;
 		ticktimer = game.time.events.loop(ticktime , testTick, this);
 	}
 }
@@ -1532,7 +1658,7 @@ function testTick2(){
 		lastValidMoveWasASpin2 = false;
 		tick2();
 	} else {
-		if(!testGameOver()){
+		if(!testGameOver2()){
 			if(!lastSecondActive2 && !hardDropped2){
 				activateLastSecondAdjustments2();
 			}
@@ -1552,18 +1678,19 @@ function testTick2(){
 			}
 		}
 	}
-	if(softDrop2 && !lastSecondActive2){
-		score2(softDropPts);
-	}
+	// if(softDrop2 && !lastSecondActive2){
+	// 	score2(softDropPts);
+	// }
 
 	killSoftDropTimer2();
 	if(!waitingLineClear2){
 		var ticktime;
-		if(softDrop){
-			ticktime = Phaser.Timer.SECOND * tickIntervalsoftDrop / 1000;
-		} else {
-			ticktime = Phaser.Timer.SECOND * tickInterval / 1000;
-		}
+		// if(softDrop){
+		// 	ticktime = Phaser.Timer.SECOND * tickIntervalsoftDrop / 1000;
+		// } else {
+		// 	ticktime = Phaser.Timer.SECOND * tickInterval / 1000;
+		// }
+		ticktime = Phaser.Timer.SECOND * tickInterval / 1000;
 		ticktimer2 = game.time.events.loop(ticktime , testTick2, this);
 	}
 }
@@ -1652,6 +1779,42 @@ function testTSpin(){
 	if(tmpY > MAX_INDEX_VERTICAL){
 		occupied++;
 	} else if(board[tmpY][tmpX] >= 10){
+		occupied++;
+	}
+
+	if(occupied >=3){
+		return true;
+	}
+	return false;
+}
+
+function testTSpin2(){
+	occupied = 0;
+	tmpX = lastX2 -1;
+	tmpY = lastY2 -1;
+	if(board2[tmpY][tmpX] >= 10){
+		occupied++;
+	}
+
+	tmpX = lastX2 -1;
+	tmpY = lastY2 +1;
+	if(tmpY > MAX_INDEX_VERTICAL){
+		occupied++;
+	} else 	if(board2[tmpY][tmpX] >= 10){
+		occupied++;
+	}
+
+	tmpX = lastX2 +1;
+	tmpY = lastY2 -1;
+	if(board2[tmpY][tmpX] >= 10){
+		occupied++;
+	}
+
+	tmpX = lastX2 +1;
+	tmpY = lastY2 +1;
+	if(tmpY > MAX_INDEX_VERTICAL){
+		occupied++;
+	} else if(board2[tmpY][tmpX] >= 10){
 		occupied++;
 	}
 
@@ -1950,6 +2113,10 @@ function updateLabelLines(){
 	labelLines.text = lineCount;
 }
 
+function updateLabelLines2(){
+	labelLines2.text = lineCount2;
+}
+
 function updateLabelScore(){
 	labelScore.text = curScore;
 }
@@ -2005,5 +2172,6 @@ function updateTickSpeed2(){
 }
 
 function initKeys(){
-
+	curY = 0;
+	curY2 = 0;
 }

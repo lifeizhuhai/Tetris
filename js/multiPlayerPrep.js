@@ -136,23 +136,33 @@ var multiPlayerPrepState = {
 			];
 
 			gameover = false;
+			gameover2 = false;
 			softDrop = false;
+			softDrop2 = false;
 			hardDrop = false;
 			hardDrop2 = false;
 			hardDropLock = false;
+			hardDropLock2 = false;
 			cleaningLines = false;
 			cleaningLines2 = false;
 			waitingLineClear = false;
 			waitingLineClear2 = false;
 			holdLock = false;
+			holdLock2 = false;
 			lineCount = 0;
+			lineCount2 = 0;
 			speedUpGoal = 10;
+			speedUpGoal2 = 10;
 			curCombo = 0;
 			curCombo2 = 0;
 			curScore = 0;
+			curScore2 = 0;
 			level = 1;
-			tickInterval = 500;
+			level2 = 1;
+			tickInterval = 1000;
+			tickInterval2 = 1000;
 			lastValidMoveWasASpin = false;
+			lastValidMoveWasASpin2 = false;
 			userKeys = loadUserKeys();
 		}
 		
