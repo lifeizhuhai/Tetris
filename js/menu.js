@@ -24,7 +24,11 @@ var menuState = {
 
 		//enterKey.onDown.addOnce(this.start, this);
 
-		btnNewGame = game.add.button(game.world.width / 2, game.world.height / 2, 'big_button', function(){show('singlePlayerPrep')}, this, 1, 2, 0);
+		btnNewGame = game.add.button(game.world.width / 2, game.world.height / 2, 'big_button', function(){
+			show('multiPlayerPrep');
+			// game.state.start('singlePlayerPrep');
+		    // game.state.start('singlePlayerPrep2');
+		}, this, 1, 2, 0);
 		btnNewGame.anchor.setTo(0.5, 0.5);
 		btnNewGame.tint = buttonTint;
 		lblNewGame = game.add.text(game.world.width / 2, game.world.height / 2, getText("MainMenu", 1), buttonStyle);
@@ -51,6 +55,7 @@ var menuState = {
 		createLanguageFlags();
 	},
 	start: function(){
-		game.state.start('singlePlayerPrep');
+		// game.state.start('singlePlayerPrep');
+		game.state.start('multiPlayerPrep');
 	}
 };

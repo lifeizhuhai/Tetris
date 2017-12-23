@@ -1,7 +1,7 @@
-var multiPlayerPrepState = {
+var singlePlayerPrepState2 = {
 	create: function(){
 		if(!nowPlaying){
-			board = [
+			board2 = [
 				[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
 				[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
 				[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
@@ -24,7 +24,7 @@ var multiPlayerPrepState = {
 				[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
 			];
 
-			boardDisplay = [
+			boardDisplay2 = [
 				[,,,,,,,,,],
 				[,,,,,,,,,],
 				[,,,,,,,,,],
@@ -46,7 +46,7 @@ var multiPlayerPrepState = {
 				[,,,,,,,,,],
 				[,,,,,,,,,],
 			];
-			nextWindow = [
+			nextWindow2 = [
 				[,,],
 				[,,],
 				[,,],
@@ -61,31 +61,30 @@ var multiPlayerPrepState = {
 				[,,] 
 			];
 
-			holdWindow = [
+			holdWindow2 = [
 				[,,],
 				[,,],
 				[,,],
 				[,,] 
 			];
-
-			
-			gameover = false;
-			softDrop = false;
-			hardDrop = false;
-			hardDropLock = false;
-			cleaningLines = false;
-			waitingLineClear = false;
-			holdLock = false;
-			lineCount = 0;
-			speedUpGoal = 10;
-			curCombo = 0;
-			curScore = 0;
-			level = 1;
-			tickInterval = 500;
-			lastValidMoveWasASpin = false;
-			userKeys = loadUserKeys();
+			gameover2 = false;
+			softDrop2 = false;
+			hardDrop2 = false;
+			hardDropLock2 = false;
+			cleaningLines2 = false;
+			waitingLineClear2 = false;
+			holdLock2 = false;
+			lineCount2 = 0;
+			speedUpGoal2 = 10;
+			curCombo2 = 0;
+			curScore2 = 0;
+			level2 = 1;
+			tickInterval2 = 500;
+			lastValidMoveWasASpin2 = false;
+			userKeys2 = loadUserKeys();
 		}
+
 		
-		game.state.start('play');
+		game.state.start('play2');
 	}
 };

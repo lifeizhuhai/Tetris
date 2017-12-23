@@ -1,25 +1,25 @@
-var playState = {
+var playState2 = {
 	create: function(){
 		game.stage.backgroundColor = "#000000";
 		resetNav();
 		initKeys();
-		bg = game.add.sprite(0, 0, 'bg'+curBg);
-		game.add.sprite(0, 0, 'board');
-		createBoardDisplay();
-		createNextWindow();
-		createHoldWindow();
+		bg = game.add.sprite(640, 0, 'bg'+curBg);
+		game.add.sprite(640, 0, 'board');
+		createBoardDisplay2();
+		createNextWindow2();
+		createHoldWindow2();
 		tetraminos = game.cache.getJSON('tetraminosJSON');
 		if(!nowPlaying){
 			initPieces();
 		}
-		createTexts();
+		createTexts2();
 		createSounds();
-		createPauseButton();
-		createParticleEmitters();
+		createPauseButton2();
+		createParticleEmitters2();
 		hardDropped = false;
 		floorKicked = false;
-		startCountDown();
-		console.log("1");
+		startCountDown2();
+		console.log("2");
 	},
 
 	update: function(){
@@ -77,19 +77,19 @@ var playState = {
 };
 
 function blocoOff(x, y){ 
-	boardDisplay[y][x].frameName = 'OFF';
+	boardDisplay2[y][x].frameName = 'OFF';
 }
 
 function blocoOn(x, y){ //lits bloco at position x, y
-	var colorIndex = board[y][x];
+	var colorIndex = board2[y][x];
 	if(colorIndex == -2){
-		boardDisplay[y][x].frameName = 'GHOST';
+		boardDisplay2[y][x].frameName = 'GHOST';
 	} else {
 		colorIndex -= 10;
 		if(colorIndex < 0){
 			colorIndex += 10;
 		}
-		boardDisplay[y][x].frameName = blocosColors[colorIndex];
+		boardDisplay2[y][x].frameName = blocosColors[colorIndex];
 	}
 }
 
@@ -99,9 +99,9 @@ function bringLinesDown(){
 		for(var i = linesToClear[k]; i > 0; i--){
 			prevLine = i -1;
 			for(var j=0; j< MAX_BLOCK_COUNT_HORIZONTAL; j++){
-				board[i][j] = board[prevLine][j];
-				if(board[i][j] < 10){
-					board[i][j] = -1;
+				board2[i][j] = board2[prevLine][j];
+				if(board2[i][j] < 10){
+					board2[i][j] = -1;
 				}
 			}
 		}
@@ -109,7 +109,7 @@ function bringLinesDown(){
 		updateLabelLines();
 	}
 	for(i = 0; i < 10; i++){
-		board[0][i] = -1;
+		board2[0][i] = -1;
 	}
 	cleaningLines = false;
 	waitingLineClear = false;
@@ -138,8 +138,8 @@ function clearGhost(){
 			// do nothing
 		} else if(tmpX > MAX_INDEX_HORIZONTAL || tmpY > MAX_INDEX_VERTICAL){
 			break;
-		} else if(board[tmpY][tmpX] == -2){
-			board[tmpY][tmpX] = -1;
+		} else if(board2[tmpY][tmpX] == -2){
+			board2[tmpY][tmpX] = -1;
 		}
 	}
 }
@@ -147,7 +147,7 @@ function clearGhost(){
 function clearHoldWindow(){
 	for(var i = 0; i < 3; i++){
 		for(var j = 0; j < 4; j++){
-			holdWindow[j][i].frameName = "OFF";
+			holdWindow2[j][i].frameName = "OFF";
 		}
 	}
 }
@@ -155,7 +155,7 @@ function clearHoldWindow(){
 function clearNextWindow(){
 	for(var i = 0; i < 3; i++){
 		for(var j = 0; j < 12; j++){
-			nextWindow[j][i].frameName = "OFF";
+			nextWindow2[j][i].frameName = "OFF";
 		}
 	}
 }
@@ -172,12 +172,12 @@ function clearPiece(){
 		} else if(tmpX > MAX_INDEX_HORIZONTAL || tmpY > MAX_INDEX_VERTICAL){
 			// do nothing
 		} else {
-			board[tmpY][tmpX] = -1;
+			board2[tmpY][tmpX] = -1;
 		}
 	}
 }
 
-function startCountDown(){
+function startCountDown2(){
 	preGameCountDown = true;
 	countDownCount = 3;
 	countDownText = game.add.text(game.world.width / 2, game.world.height / 2, getText("SinglePlayerGame", 6), getStyle("countDown"));
@@ -223,24 +223,24 @@ function countDown(){
 
 }
 
-function createBoardDisplay(){
+function createBoardDisplay2(){
 	//create grid with blocos
 	for(var i = 0; i < MAX_BLOCK_COUNT_HORIZONTAL; i++){
 		for(var j = 0; j < MAX_BLOCK_COUNT_VERTICAL; j++){
-			boardDisplay[j][i] = game.add.sprite(DISPLAY_OFFSET_HORIZONTAL + (i * BLOCK_SIDE), DISPLAY_OFFSET_VERTICAL + (j * BLOCK_SIDE), 'blocoatlas', 'OFF');
+			boardDisplay2[j][i] = game.add.sprite(DISPLAY_OFFSET_HORIZONTAL + 640 + (i * BLOCK_SIDE), DISPLAY_OFFSET_VERTICAL + (j * BLOCK_SIDE), 'blocoatlas', 'OFF');
 		}
 	}
 }
 
-function createHoldWindow(){
+function createHoldWindow2(){
 	for(var i = 0; i < 3; i++){
 		for(var j = 0; j < 4; j++){
-			holdWindow[j][i] = game.add.sprite(HOLD_WINDOW_OFFSET_HORIZONTAL + (i * BLOCK_SIDE) , HOLD_WINDOW_OFFSET_VERTICAL + (j * BLOCK_SIDE), 'blocoatlas', 'OFF');
+			holdWindow2[j][i] = game.add.sprite(HOLD_WINDOW_OFFSET_HORIZONTAL + 640 + (i * BLOCK_SIDE) , HOLD_WINDOW_OFFSET_VERTICAL + (j * BLOCK_SIDE), 'blocoatlas', 'OFF');
 		}
 	}
 }
 
-function createNextWindow(){
+function createNextWindow2(){
 	var nextMargin = 0;
 	var marginIncrement = 3;
 	for(var i = 0; i < 3; i++){
@@ -248,13 +248,13 @@ function createNextWindow(){
 			if((j) % 4 == 0 && j > 3){
 				nextMargin += marginIncrement;
 			}
-			nextWindow[j][i] = game.add.sprite(NEXT_WINDOW_OFFSET_HORIZONTAL + (i * BLOCK_SIDE) , NEXT_WINDOW_OFFSET_VERTICAL + (j * BLOCK_SIDE) + nextMargin, 'blocoatlas', 'OFF');
+			nextWindow2[j][i] = game.add.sprite(NEXT_WINDOW_OFFSET_HORIZONTAL + 640 + (i * BLOCK_SIDE) , NEXT_WINDOW_OFFSET_VERTICAL + (j * BLOCK_SIDE) + nextMargin, 'blocoatlas', 'OFF');
 		}
 		nextMargin = 0;
 	}
 }
 
-function createParticleEmitters(){
+function createParticleEmitters2(){
 	levelUpEmitter = game.add.emitter(100, 410, 100);
 	levelUpEmitter.makeParticles('upArrow');
 	levelUpEmitter.minParticleSpeed.set(0, -30);
@@ -267,7 +267,7 @@ function createParticleEmitters(){
 	});
 }
 
-function createPauseButton(){
+function createPauseButton2(){
 	pauseButton = game.add.button(5, 5, "small_button", pauseGame, this, 1,2,0);
 	pauseButtonIcon = game.add.sprite(5, 5, "pause_icon");
 	pauseButtonIcon.tint = 0x222222;
@@ -277,42 +277,42 @@ function pauseGame(){
 }
 
 
-function createTexts(){
+function createTexts2(){
 	var bgArtStyle = getStyle("bg_art");
     var bgArtText = bgsTexts[curBg];
-    labelArt = game.add.text(0, 0, bgArtText, bgArtStyle);
+    labelArt = game.add.text(0 + 640, 0, bgArtText, bgArtStyle);
     labelArt.setTextBounds(463, 378, 154, 92);
 
 	var scoreStyle = getStyle("text_single_player");
     var scoreText = curScore;
-    labelScore = game.add.text(0, 0, scoreText, scoreStyle);
+    labelScore = game.add.text(0 + 640, 0, scoreText, scoreStyle);
     labelScore.setTextBounds(23, 348, 159, 23);
 
     var levelText = level;
-    labelLevel = game.add.text(0, 0, levelText, scoreStyle);
+    labelLevel = game.add.text(0 + 640, 0, levelText, scoreStyle);
     labelLevel.setTextBounds(23, 397, 159, 23);
 
 	var linesText = lineCount;
-    labelLines = game.add.text(0, 0, linesText, scoreStyle);
+    labelLines = game.add.text(0 + 640, 0, linesText, scoreStyle);
     labelLines.setTextBounds(23, 446, 159, 23);
 
     var labelGameStyle = getStyle("text_single_player_label");
-    l = game.add.text(0, 0, getText("SinglePlayerGame", 0), labelGameStyle);
+    l = game.add.text(0 + 640, 0, getText("SinglePlayerGame", 0), labelGameStyle);
     l.setTextBounds(23, 28, 159, 23);
 
-    l = game.add.text(0, 0, getText("SinglePlayerGame", 1), labelGameStyle);
+    l = game.add.text(0 + 640, 0, getText("SinglePlayerGame", 1), labelGameStyle);
     l.setTextBounds(463, 28, 159, 23);
 
-    l = game.add.text(0, 0, getText("SinglePlayerGame", 2), labelGameStyle);
+    l = game.add.text(0 + 640, 0, getText("SinglePlayerGame", 2), labelGameStyle);
     l.setTextBounds(463, 350, 159, 23);
 
-    l = game.add.text(0, 0, getText("SinglePlayerGame", 3), labelGameStyle);
+    l = game.add.text(0 + 640, 0, getText("SinglePlayerGame", 3), labelGameStyle);
     l.setTextBounds(23, 320, 159, 23);
 
-    l = game.add.text(0, 0, getText("SinglePlayerGame", 4), labelGameStyle);
+    l = game.add.text(0 + 640, 0, getText("SinglePlayerGame", 4), labelGameStyle);
     l.setTextBounds(23, 372, 159, 23);
 
-    l = game.add.text(0, 0, getText("SinglePlayerGame", 5), labelGameStyle);
+    l = game.add.text(0 + 640, 0, getText("SinglePlayerGame", 5), labelGameStyle);
     l.setTextBounds(23, 422, 159, 23);
 
     multiplierFeedbackText = game.add.text(0, 0, "", getStyle("multiplier"));
@@ -342,7 +342,7 @@ function drawGhost(){
 			} else if(tmpX > MAX_INDEX_HORIZONTAL || tmpY > MAX_INDEX_VERTICAL){
 				// do nothing
 			} else {
-				board[tmpY][tmpX] = -2;//ghost index
+				board2[tmpY][tmpX] = -2;//ghost index
 			}
 		}
 	}
@@ -360,7 +360,7 @@ function drawPiece(){
 		} else if(tmpX > MAX_INDEX_HORIZONTAL || tmpY > MAX_INDEX_VERTICAL){
 			// do nothing
 		} else {
-			board[tmpY][tmpX] = pieceIndex;
+			board2[tmpY][tmpX] = pieceIndex;
 		}
 	}
 }
@@ -368,9 +368,9 @@ function drawPiece(){
 function getInput(){
 	hAxis = 0;
 	//if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
-		if(game.input.keyboard.isDown(userKeys[0])){
+		if(game.input.keyboard.isDown(userKeys2[0])){
 		hAxis --;
-	} else if(game.input.keyboard.isDown(userKeys[1])){
+	} else if(game.input.keyboard.isDown(userKeys2[1])){
 		hAxis++;
 	} else {
 		unlockMovement();
@@ -390,12 +390,12 @@ function getInput(){
 		movementDelayLock = false;
 	}
 	
-	if(game.input.keyboard.isDown(userKeys[2])){
+	if(game.input.keyboard.isDown(userKeys2[2])){
 		if(!rotateLock){
 			rotateClockWise();
 			rotateLock = true;
 		}
-	} else if(game.input.keyboard.isDown(userKeys[3])){
+	} else if(game.input.keyboard.isDown(userKeys2[3])){
 		if(!rotateLock){
 			rotateCounterClockWise();
 			rotateLock = true;
@@ -406,7 +406,7 @@ function getInput(){
 
 	
 
-	if(game.input.keyboard.isDown(userKeys[4])){
+	if(game.input.keyboard.isDown(userKeys2[4])){
 		if(!softDrop){
 			killSoftDropTimer();
 			softDrop = true;
@@ -421,7 +421,7 @@ function getInput(){
 		}
 	}
 
-	if(game.input.keyboard.isDown(userKeys[5])){
+	if(game.input.keyboard.isDown(userKeys2[5])){
 		if (!hardDropLock){
 			hardDropLock = true;
 			hardDrop = true;
@@ -434,7 +434,7 @@ function getInput(){
 		}
 	}
 
-	if(game.input.keyboard.isDown(userKeys[6])){
+	if(game.input.keyboard.isDown(userKeys2[6])){
 		if(!holdLock){
 			holdLock = true;
 			hold();
@@ -521,7 +521,7 @@ function killSoftDropTimer(){
 
 function lineClear(){
 	for(var i = 0; i < linesToClear.length; i++ ){
-		board[linesToClear[i][lineClearX]] = -1;
+		board2[linesToClear[i][lineClearX]] = -1;
 		blocoOff(lineClearX, linesToClear[i]);
 	}
 	if(lineClearX >= MAX_INDEX_HORIZONTAL){
@@ -589,7 +589,7 @@ function placeOnBoard(){
 		} else if(tmpX > MAX_INDEX_HORIZONTAL || tmpY > MAX_INDEX_VERTICAL){
 			// do nothing
 		} else {
-			board[tmpY][tmpX] = pieceIndex + 10;
+			board2[tmpY][tmpX] = pieceIndex + 10;
 		}
 	}
 	if(holdLock){
@@ -719,7 +719,7 @@ function testDrop(){
 			// do nothing
 		} else if(tmpX > MAX_INDEX_HORIZONTAL || tmpY > MAX_INDEX_VERTICAL){
 			return false;
-		} else if(board[tmpY][tmpX] >= 10){
+		} else if(board2[tmpY][tmpX] >= 10){
 				return false;
 			}
 		}
@@ -750,7 +750,7 @@ function testGhostDrop(){
 			// do nothing
 		} else if(tmpX > MAX_INDEX_HORIZONTAL || tmpY > MAX_INDEX_VERTICAL){
 			return false;
-		} else if(board[tmpY][tmpX] >= 10){
+		} else if(board2[tmpY][tmpX] >= 10){
 				return false;
 			}
 		}
@@ -764,7 +764,7 @@ function testLineClear(){
 	for(var i=0; i < MAX_BLOCK_COUNT_VERTICAL; i++){
 		for(var j=0; j < MAX_BLOCK_COUNT_HORIZONTAL; j++){
 			lineCleared = true;
-			if(board[i][j] <= -1){
+			if(board2[i][j] <= -1){
 				lineCleared = false;
 				break;
 			}
@@ -791,7 +791,7 @@ function testMoveLeft(){
 		if(tmpX >= 0){ // test if there is room to go left
 			if(tmpY < 0){ //if offscreen
 				//do nothing
-			} else if(board[tmpY][tmpX] >= 10){
+			} else if(board2[tmpY][tmpX] >= 10){
 				return false;
 			}
 		} else {
@@ -811,7 +811,7 @@ function testMoveRight(){
 		if(tmpX <= MAX_INDEX_HORIZONTAL){ // test if there is room to go right
 			if(tmpY < 0){ //if offscreen
 				//do nothing
-			} else if(board[tmpY][tmpX] >= 10){
+			} else if(board2[tmpY][tmpX] >= 10){
 				return false;
 			}
 		} else {
@@ -841,7 +841,7 @@ function testRotateClockWise(x, y){
 			return false;
 		} else {
 			if(tmpX > -1 && tmpX < MAX_BLOCK_COUNT_HORIZONTAL){
-				if(board[tmpY][tmpX] >= 10){
+				if(board2[tmpY][tmpX] >= 10){
 					return false;
 				}
 			} else {
@@ -871,7 +871,7 @@ function testRotateCounterClockWise(x, y){
 		} else if((tmpX > MAX_INDEX_HORIZONTAL || tmpX < 0) || (tmpY > MAX_INDEX_VERTICAL)){
 			return false;
 		} else if(tmpX > -1 && tmpX < MAX_BLOCK_COUNT_HORIZONTAL && tmpY < MAX_BLOCK_COUNT_VERTICAL){
-			if(board[tmpY][tmpX] >= 10){
+			if(board2[tmpY][tmpX] >= 10){
 				return false;
 			}
 		} else {
@@ -971,7 +971,7 @@ function testTSpin(){
 	occupied = 0;
 	tmpX = lastX -1;
 	tmpY = lastY -1;
-	if(board[tmpY][tmpX] >= 10){
+	if(board2[tmpY][tmpX] >= 10){
 		occupied++;
 	}
 
@@ -979,13 +979,13 @@ function testTSpin(){
 	tmpY = lastY +1;
 	if(tmpY > MAX_INDEX_VERTICAL){
 		occupied++;
-	} else 	if(board[tmpY][tmpX] >= 10){
+	} else 	if(board2[tmpY][tmpX] >= 10){
 		occupied++;
 	}
 
 	tmpX = lastX +1;
 	tmpY = lastY -1;
-	if(board[tmpY][tmpX] >= 10){
+	if(board2[tmpY][tmpX] >= 10){
 		occupied++;
 	}
 
@@ -993,7 +993,7 @@ function testTSpin(){
 	tmpY = lastY +1;
 	if(tmpY > MAX_INDEX_VERTICAL){
 		occupied++;
-	} else if(board[tmpY][tmpX] >= 10){
+	} else if(board2[tmpY][tmpX] >= 10){
 		occupied++;
 	}
 
@@ -1159,7 +1159,7 @@ function updateBg(newBg){
 function updateBoardDisplayed(){
 	for(var i = 0; i < MAX_BLOCK_COUNT_HORIZONTAL; i++){
 		for(var j = 0; j < MAX_BLOCK_COUNT_VERTICAL; j++){
-			if(board[j][i] == -1){
+			if(board2[j][i] == -1){
 				blocoOff(i, j);
 			} else {
 				blocoOn(i, j);
@@ -1203,7 +1203,7 @@ function updateNextWindow(){
 		for(var i = 0; i < 4; i++){ //piece blocks
 			var blocoX = (nextPiece[j].poses[0][i][0]) + offsetX;
 			var blocoY = (nextPiece[j].poses[0][i][1]) + (offsetY + (j*4));
-			nextWindow[blocoY][blocoX].frameName = blocosColors[nextPieceIndex[j]];
+			nextWindow2[blocoY][blocoX].frameName = blocosColors[nextPieceIndex[j]];
 		}
 	}
 }
